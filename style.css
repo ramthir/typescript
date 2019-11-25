@@ -1,0 +1,11 @@
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif|Yanone+Kaffeesatz|Fira+Code);
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+}
+h1, h2 {
+  font-family: 'Ubuntu Condensed', sans-serif;
+}
+pre {
+  font-family: 'Fira Code', monospace;
+}
