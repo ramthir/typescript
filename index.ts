@@ -1,9 +1,4 @@
-// Import stylesheets
-import "./style.css";
-var log = s =>
-  (document.getElementById("app").innerHTML += JSON.stringify(s) + "<br/>");
-var console = { log };
-
+import { console } from './polyfills';
 import { concat, interval } from "rxjs";
 import { map, take } from "rxjs/operators";
 
