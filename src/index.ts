@@ -1,10 +1,3 @@
-// Import stylesheets
-import "./style.css";
-var console = {
-  log: s =>
-    (document.getElementById("app").innerHTML += JSON.stringify(s) + "<br/>")
-};
-
 import { concat, interval } from "rxjs";
 import { map, take } from "rxjs/operators";
 
