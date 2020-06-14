@@ -24,3 +24,7 @@ const { name, ...rest } = ramesh;
 
 console.log(name);
 console.log(rest);
+
+const descriptor = Object.getOwnPropertyDescriptor(lasantha, 'name');
+console.log(descriptor);
+
