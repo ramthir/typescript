@@ -1,30 +1,23 @@
-import { console } from './polyfills';
+import { console } from "./polyfills";
 import { concat, interval } from "rxjs";
 import { map, take } from "rxjs/operators";
 
-interface Developer {
-  name: string,
-  designation: string,
-  team: string
-}
-
-const ramesh: Developer = {
+const developer = {
   name: "Ramesh Thiruchelvam",
   designation: "Software Engineer",
   team: "Web SDK"
-}
+};
 
-const lasantha: Developer = {
-  name: "Lasantha Nagoda",
-  designation: "Architect",
-  team: "Phoenix"
-}
+Object.defineProperty(developer, "designation", { writable: false });
 
-const { name, ...rest } = ramesh;
+console.log(developer);
+
+developer.name = "Lasantha Nagoda";
+
+const { name, ...rest } = developer;
 
 console.log(name);
 console.log(rest);
 
-const descriptor = Object.getOwnPropertyDescriptor(lasantha, 'name');
+const descriptor = Object.getOwnPropertyDescriptor(developer, "designation");
 console.log(descriptor);
-
