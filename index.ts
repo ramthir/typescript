@@ -2,19 +2,25 @@ import { console } from './polyfills';
 import { concat, interval } from "rxjs";
 import { map, take } from "rxjs/operators";
 
-const one$ = interval(1000).pipe(
-  take(1),
-  map(() => "1")
-);
-const two$ = interval(1000).pipe(
-  take(2),
-  map(() => "2")
-);
-const three$ = interval(1000).pipe(
-  take(3),
-  map(() => "3")
-);
+interface Developer {
+  name: string,
+  designation: string,
+  team: string
+}
 
-const result = concat(one$, two$, three$);
+const ramesh: Developer = {
+  name: "Ramesh Thiruchelvam",
+  designation: "Software Engineer",
+  team: "Web SDK"
+}
 
-result.subscribe(x => console.log(x));
+const lasantha: Developer = {
+  name: "Lasantha Nagoda",
+  designation: "Architect",
+  team: "Phoenix"
+}
+
+const { name, ...rest } = ramesh;
+
+console.log(name);
+console.log(rest);
