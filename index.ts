@@ -2,6 +2,14 @@ import { console } from "./polyfills";
 import { concat, interval, of } from "rxjs";
 import { map, take } from "rxjs/operators";
 import * as faker from "faker";
+import {
+  startOfDay,
+  startOfToday,
+  endOfToday,
+  addMinutes,
+  roundToNearestMinutes,
+  areIntervalsOverlapping
+} from "date-fns";
 
 export interface Unit {
   id: number;
@@ -33,6 +41,8 @@ enum StatusType {
   ONGOING = "ongoing"
 }
 
+const SLOT_DURATIONS = [30, 45, 60, 90, 120];
+
 const appointment = (): Appointment => ({
   title: faker.name.firstName(),
   appendix: faker.name.lastName(),
@@ -42,26 +52,41 @@ const appointment = (): Appointment => ({
 });
 
 export const UNITS: Unit[] = [
-  { id: 1, name: 'Department 1' },
-  { id: 2, name: 'Department 2' },
-  { id: 3, name: 'Department 3' }
+  { id: 1, name: "Department 1" },
+  { id: 2, name: "Department 2" },
+  { id: 3, name: "Department 3" }
 ];
 
 export const ROOMS: Room[] = [
-  { id: 1, unitId: 1, name: 'Room 1' },
-  { id: 2, unitId: 1, name: 'Room 2' },
-  { id: 3, unitId: 2, name: 'Room 3' },
-  { id: 4, unitId: 2, name: 'Room 4' },
-  { id: 5, unitId: 2, name: 'Room 5' },
-  { id: 6, unitId: 3, name: 'Room 6' },
+  { id: 1, unitId: 1, name: "Room 1" },
+  { id: 2, unitId: 1, name: "Room 2" },
+  { id: 3, unitId: 2, name: "Room 3" },
+  { id: 4, unitId: 2, name: "Room 4" },
+  { id: 5, unitId: 2, name: "Room 5" },
+  { id: 6, unitId: 3, name: "Room 6" }
 ];
 
-const intervals = (length: number) => Array.from({ length }).reduce((accumulator, item, index) => {
-  const randomRoom: Room = faker.random.arrayElement(ROOMS);
-  const subIntervals = accumulator[randomRoom.id] || [];
-  subIntervals.push(index);
-  accumulator[randomRoom.id] = subIntervals;
-  return accumulator;
-}, {});
+const isOverlapping = (slot1, slot2) =>
+  slot1.swimlane === slot2.swimlane && areIntervalsOverlapping(slot1, slot2);
 
-console.log(intervals(10));
+const intervals = (length: number, min: Date, max: Date) =>
+  Array.from({ length }).reduce((accumulator: any[], item, index) => {
+    const swimlane: Room = faker.random.arrayElement(ROOMS);
+    const start = roundToNearestMinutes(faker.date.between(min, max), {
+      nearestTo: 15
+    });
+    const end = addMinutes(start, faker.random.arrayElement(SLOT_DURATIONS));
+
+    const slot = { swimlane, start, end };
+
+    if (!accumulator.some(item => isOverlapping(item, slot))) {
+      accumulator.push(slot);
+    }
+
+    return accumulator;
+  }, []);
+
+const start = startOfToday();
+const end = endOfToday();
+
+console.log(intervals(100, start, end).length);
