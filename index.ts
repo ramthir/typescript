@@ -43,13 +43,23 @@ enum StatusType {
 
 const SLOT_DURATIONS = [30, 45, 60, 90, 120];
 
-const appointment = (): Appointment => ({
+const createAppointment = (): Appointment => ({
   title: faker.name.firstName(),
   appendix: faker.name.lastName(),
   type: SlotType.APPOINTMENT,
   status: faker.random.objectElement(StatusType),
   note: faker.lorem.sentence(2)
 });
+
+const createSlot = (min: Date, max: Date) => {
+  const swimlane: Room = faker.random.arrayElement(ROOMS);
+  const start = roundToNearestMinutes(faker.date.between(min, max), {
+    nearestTo: 15
+  });
+  const end = addMinutes(start, faker.random.arrayElement(SLOT_DURATIONS));
+
+  return { swimlane, start, end };
+};
 
 export const UNITS: Unit[] = [
   { id: 1, name: "Department 1" },
@@ -71,14 +81,7 @@ const isOverlapping = (slot1, slot2) =>
 
 const intervals = (length: number, min: Date, max: Date) =>
   Array.from({ length }).reduce((accumulator: any[], item, index) => {
-    const swimlane: Room = faker.random.arrayElement(ROOMS);
-    const start = roundToNearestMinutes(faker.date.between(min, max), {
-      nearestTo: 15
-    });
-    const end = addMinutes(start, faker.random.arrayElement(SLOT_DURATIONS));
-
-    const slot = { swimlane, start, end };
-
+    const slot = createSlot(min, max);
     if (!accumulator.some(item => isOverlapping(item, slot))) {
       accumulator.push(slot);
     }
