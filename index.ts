@@ -79,17 +79,22 @@ export const ROOMS: Room[] = [
 const isOverlapping = (slot1, slot2) =>
   slot1.swimlane === slot2.swimlane && areIntervalsOverlapping(slot1, slot2);
 
-const intervals = (length: number, min: Date, max: Date) =>
-  Array.from({ length }).reduce((accumulator: any[], item, index) => {
+const intervals = (
+  min: Date = startOfToday(),
+  max: Date = endOfToday(),
+  length: number = 10
+) => {
+  const accumulator = [];
+  while (accumulator.length < length) {
     const slot = createSlot(min, max);
     if (!accumulator.some(item => isOverlapping(item, slot))) {
       accumulator.push(slot);
     }
-
-    return accumulator;
-  }, []);
+  }
+  return accumulator;
+};
 
 const start = startOfToday();
 const end = endOfToday();
 
-console.log(intervals(100, start, end).length);
+console.log(intervals(start, end, 100).length);
