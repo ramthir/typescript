@@ -5,9 +5,22 @@ import * as faker from "faker";
 
 const length = 100;
 
+enum SlotType {
+  AVAILABILITY,
+  APPOINTMENT
+}
+
+enum StatusType {
+  PLANNED = "planned",
+  BOOKED = "booked",
+  ONGOING = "ongoing"
+}
+
 const appointment = () => ({
   title: faker.name.firstName(),
   appendix: faker.name.lastName(),
+  type: SlotType.APPOINTMENT,
+  status: faker.random.objectElement(StatusType),
   note: faker.lorem.sentence(2)
 });
 
