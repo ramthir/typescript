@@ -3,8 +3,6 @@ import { concat, interval, of } from "rxjs";
 import { map, take } from "rxjs/operators";
 import * as faker from "faker";
 
-const length = 100;
-
 export interface Unit {
   id: number;
   name: string;
@@ -58,12 +56,12 @@ export const ROOMS: Room[] = [
   { id: 6, unitId: 3, name: 'Room 6' },
 ];
 
-
-
-const intervals = Array.from({ length }).reduce((accumulator, item, index) => {
-  accumulator.push(appointment());
+const intervals = (length: number) => Array.from({ length }).reduce((accumulator, item, index) => {
+  const randomRoom: Room = faker.random.arrayElement(ROOMS);
+  const subIntervals = accumulator[randomRoom.id] || [];
+  subIntervals.push(index);
+  accumulator[randomRoom.id] = subIntervals;
   return accumulator;
-}, []);
+}, {});
 
-console.log(intervals);
-//console.log(faker.random.number());
+console.log(intervals(10));
