@@ -1,23 +1,9 @@
 import { console } from "./polyfills";
-import { concat, interval } from "rxjs";
+import { concat, interval, of } from "rxjs";
 import { map, take } from "rxjs/operators";
+import * as faker from 'faker';
 
-const developer = {
-  name: "Ramesh Thiruchelvam",
-  designation: "Software Engineer",
-  team: "Web SDK"
-};
+const length = 100;
+const intervals = Array.from({ length });
 
-Object.defineProperty(developer, "designation", { writable: false });
-
-console.log(developer);
-
-developer.name = "Lasantha Nagoda";
-
-const { name, ...rest } = developer;
-
-console.log(name);
-console.log(rest);
-
-const descriptor = Object.getOwnPropertyDescriptor(developer, "designation");
-console.log(descriptor);
+console.log(faker.random.number());
