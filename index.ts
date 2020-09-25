@@ -1,8 +1,10 @@
 import { console } from "./polyfills";
 
-function foo(start: Date | number) {
-  console.log(start);
-}
+const fruits = {
+  "🍎": "Apple",
+  "🍌": "Banana",
+  "🥭": "Mango"
+};
 
-foo(new Date());
-foo(1);
+console.log(fruits["🍌"]);
+console.log(fruits["🥑"] || "Not Found");
