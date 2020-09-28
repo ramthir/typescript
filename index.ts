@@ -1,10 +1,9 @@
 import { console } from "./polyfills";
 
-const fruits = {
-  "🍎": "Apple",
-  "🍌": "Banana",
-  "🥭": "Mango"
-};
+const value_null = null;
+const value_undefined = undefined;
+const value_empty = '';
 
-console.log(fruits["🍌"]);
-console.log(fruits["🥑"] || "Not Found");
+if(!value_null) console.log('null undefined or empty');
+if(!value_undefined) console.log('null undefined or empty');
+if(!value_empty) console.log('null undefined or empty');
