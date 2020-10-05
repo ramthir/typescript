@@ -2,12 +2,15 @@
   "name": "typescript",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "build": "tsc",
+    "run": "node lib/index.js"
+  },
   "dependencies": {
     "rxjs": "^6.5.2",
     "date-fns": "^2.3.0"
   },
-  "scripts": {
-    "build": "tsc",
-    "run": "node lib/index.js"
+  "devDependencies": {
+    "jasmine": "^3.6.1"
   }
 }
